@@ -25,6 +25,15 @@ def construct_dictionary(instruction_data):
 	return opcode_dict
 
 
+def construct_prg_memory(prg_rom, prg_rom_banks):
+	if prg_rom_banks == 1:
+		return prg_rom * 2
+	elif prg_rom_banks == 2:
+		return prg_rom
+	else:
+		raise ValueError('ROM uses a memory mapper (not yet implemented).')
+
+
 def disassemble_program(prg_rom, opcode_dict):
 	byte_offset = 0
 	while byte_offset < len(prg_rom):
@@ -94,7 +103,9 @@ def main():
 
 	filepath = sys.argv[1]
 	loaded_rom = file_opener.load_file(filepath)
-	disassemble_program(loaded_rom['prg_rom'], opcode_dict)
+	prg_memory = construct_prg_memory(loaded_rom['prg_rom'],
+	                                  loaded_rom['prg_rom_banks'])
+	disassemble_program(prg_memory, opcode_dict)
 
 
 if __name__ == '__main__':

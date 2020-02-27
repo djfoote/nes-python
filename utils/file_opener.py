@@ -1,3 +1,4 @@
+import math
 import os
 
 PRG_ROM_BANK_SIZE = 2**14  # 16kB
@@ -21,7 +22,10 @@ def load_asm_file(filepath):
 	with open(filepath, 'rb') as f:
 		bytes_list = list(f.read())
 
+	prg_rom_banks = math.ceil(len(bytes_list) / PRG_ROM_BANK_SIZE)
+	bytes_list += [0x00] * (prg_rom_banks * PRG_ROM_BANK_SIZE - len(bytes_list))
 	return {
+		'prg_rom_banks': prg_rom_banks
 		'prg_rom': bytes_list
 	}
 
