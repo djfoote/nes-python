@@ -25,8 +25,8 @@ def load_asm_file(filepath):
 	prg_rom_banks = math.ceil(len(bytes_list) / PRG_ROM_BANK_SIZE)
 	bytes_list += [0x00] * (prg_rom_banks * PRG_ROM_BANK_SIZE - len(bytes_list))
 	return {
-		'prg_rom_banks': prg_rom_banks
-		'prg_rom': bytes_list
+		'prg_rom_banks': prg_rom_banks,
+		'prg_rom': bytes_list,
 	}
 
 
