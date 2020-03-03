@@ -4,7 +4,7 @@ from utils import file_opener
 PRG_ROM_START = 0x8000
 
 PRG_ROM_BANK_SIZE = 2**14  # 16kB
-CHR_ROM_BANK_SIZE = 2**13 # 8kB
+CHR_ROM_BANK_SIZE = 2**13  # 8kB
 
 
 class ROMWriteException(Exception):
