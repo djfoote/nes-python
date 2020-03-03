@@ -64,7 +64,6 @@ def load_nes_file(filepath):
 		'mirroring': mirroring,
 		'has_ram': has_ram,
 		'has_trainer': has_trainer,
-		'mirroring': mirroring,
 		'vs_system': vs_system,
 		'mapper_number': mapper_number,
 		'ram_banks': ram_banks,
