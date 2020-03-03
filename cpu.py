@@ -17,6 +17,17 @@ class RAM(io_device.IODevice):
 		self.memory[address & 0x7FF] = data
 
 
+class CPUFlags(object):
+	def __init__(self):
+		self.c = 0
+		self.z = 0
+		self.i = 1
+		self.d = 0
+		self.b = 1
+		self.v = 0
+		self.n = 0
+
+
 class CPU(object):
 	def __init__(self, external_io_devices):		
 		self.initialize_registers()
@@ -29,7 +40,8 @@ class CPU(object):
 		self.x = 0x00
 		self.y = 0x00
 		self.sp = 0xFF
-		self.flags = 0x34
+
+		self.flags = CPUFlags()
 
 		low_byte = self.read(PC_INIT_INDIRECT_ADDRESS)
 		high_byte = self.read(PC_INIT_INDIRECT_ADDRESS + 1)
