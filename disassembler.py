@@ -1,28 +1,9 @@
-import csv
 import sys
 
-import file_opener
+import instruction_data
+from utils import file_opener
 
 PRG_ROM_START = 0x8000
-
-OPS_CSV_FILEPATH = 'utils/6502ops.csv'
-
-
-def get_instruction_data():
-	instruction_data = []
-	with open(OPS_CSV_FILEPATH, newline='') as csvfile:
-		reader = csv.reader(csvfile)
-		for i, line in enumerate(reader):
-			if i and line:  # Throw away first line and empty lines.
-				instruction_data.append(line)
-	return instruction_data
-
-
-def construct_dictionary(instruction_data):
-	opcode_dict = {}
-	for opcode, name, addr_mode, instr_bytes, cycles, flags in instruction_data:
-		opcode_dict[int(opcode, 16)] = [name, addr_mode, int(instr_bytes)]
-	return opcode_dict
 
 
 def construct_prg_memory(prg_rom, prg_rom_banks):
@@ -46,7 +27,7 @@ def disassemble_program(prg_rom, opcode_dict):
 			byte_offset += 1
 			continue
 
-		name, addr_mode, instr_bytes = opcode_dict[opcode]
+		name, addr_mode, instr_bytes, _ = opcode_dict[opcode]
 		if byte_offset + instr_bytes > len(prg_rom):
 			print(f'{memory_address} {opcode_string}       ??? ')
 			byte_offset += 1
@@ -99,7 +80,7 @@ def get_address_string(addr_mode, extra_bytes):
 
 
 def main():
-	opcode_dict = construct_dictionary(get_instruction_data())
+	opcode_dict = instruction_data.get_opcode_dict()
 
 	filepath = sys.argv[1]
 	loaded_rom = file_opener.load_file(filepath)
