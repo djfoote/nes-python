@@ -1,8 +1,7 @@
-import math
-
-import cpu
 import io_device
 from utils import file_opener
+
+PRG_ROM_START = 0x8000
 
 PRG_ROM_BANK_SIZE = 2**14  # 16kB
 CHR_ROM_BANK_SIZE = 2**13 # 8kB
@@ -79,10 +78,10 @@ class NROM(MemoryMapper):
 			                 f'banks) to fit on an NROM-mapped cartridge')
 
 	def chip_select(self, address):
-		return address >= cpu.PRG_ROM_START
+		return address >= PRG_ROM_START
 
 	def read_prg_rom(self, address):
-		relative_address = address - cpu.PRG_ROM_START
+		relative_address = address - PRG_ROM_START
 		if self.num_prg_rom_banks == 1:  # First bank is mirrored
 			relative_address &= 0x3FFF
 		return self.loaded_prg_rom_banks[relative_address]
