@@ -9,25 +9,12 @@ TRAINER_SIZE = 2**8  # 512B
 # Lambda to delay execution since we want this at the top.
 FILETYPES = {
 	'.nes': lambda: load_nes_file,
-	'.asm': lambda: load_asm_file,
 }
 
 
 def load_file(filepath):
 	_, ext = os.path.splitext(filepath)
 	return FILETYPES[ext]()(filepath)
-
-
-def load_asm_file(filepath):
-	with open(filepath, 'rb') as f:
-		bytes_list = list(f.read())
-
-	prg_rom_banks = math.ceil(len(bytes_list) / PRG_ROM_BANK_SIZE)
-	bytes_list += [0x00] * (prg_rom_banks * PRG_ROM_BANK_SIZE - len(bytes_list))
-	return {
-		'prg_rom_banks': prg_rom_banks,
-		'prg_rom': bytes_list,
-	}
 
 
 def load_nes_file(filepath):
