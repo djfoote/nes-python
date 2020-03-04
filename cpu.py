@@ -1,4 +1,5 @@
 import io_device
+import instruction
 
 PC_INIT_INDIRECT_ADDRESS = 0xFFFC
 
@@ -46,6 +47,8 @@ class CPU(object):
 		low_byte = self.read(PC_INIT_INDIRECT_ADDRESS)
 		high_byte = self.read(PC_INIT_INDIRECT_ADDRESS + 1)
 		self.pc = high_byte << 8 + low_byte
+
+		self.instructions = instruction.initialize_instructions(self)
 
 	def read(self, address):
 		for device in self.external_io_devices:
